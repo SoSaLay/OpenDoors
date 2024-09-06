@@ -7,6 +7,8 @@ const app = express();
 const mysql = require('mysql');
 const PORT = process.env.PORT || 3030;
 
+app.use(cors());
+
 app.use((req, res, next) => { // Allow requests from any origin (you can restrict to specific domains if needed) 
   res.header('Access-Control-Allow-Origin', '*'); 
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); 
