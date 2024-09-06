@@ -106,77 +106,87 @@ const CareerGenerator = () => {
         <div>
           <h1>{career.careerPathway.title}</h1>
           <p>{career.careerPathway.description}</p>
-          <h2>Steps</h2>
-          <ul>
-            {career.careerPathway.steps.map((step, index) => (
-              <li key={index}>
-                <h3>{step.stage}</h3>
-                <ul>
-                  {step.activities.map((activity, idx) => (
-                    <li key={idx}>{activity}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <h2>Job Types</h2>
-          <ul>
-            {career.careerPathway.jobTypes.map((jobType, index) => (
-              <li
-                key={index}
-                onClick={() => generateCareer(jobType)}
-                style={{ cursor: "pointer", color: "#007bff" }}
-              >
-                {jobType}
-              </li>
-            ))}
-          </ul>
-          <h2>Resources</h2>
-          <p>Location: {career.resources.location}</p>
-          <h3>Educational Resources</h3>
-          <ul>
-            {career.resources.educationalResources.map((resource, index) => (
-              <li key={index}>
-                <a
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
+          <div className="divider-results">
+            <h2>Steps</h2>
+            <ol>
+              {career.careerPathway.steps.map((step, index) => (
+                <li key={index}>
+                  <h3>{step.stage}</h3>
+                  <ul>
+                    {step.activities.map((activity, idx) => (
+                      <li key={idx}>{activity}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+            </ol>
+          </div>
+          <div className="divider-results">
+            <h2>Job Types</h2>
+            <ul>
+              {career.careerPathway.jobTypes.map((jobType, index) => (
+                <li
+                  key={index}
+                  onClick={() => generateCareer(jobType)}
+                  style={{ cursor: "pointer", color: "#007bff" }}
                 >
-                  {resource.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-          <h3>Scholarships and Grants</h3>
-          <ul>
-            {career.resources.scholarshipsAndGrants.map(
-              (scholarship, index) => (
+                  {jobType}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="divider-results">
+            <h2>Resources</h2>
+            <p>Location: {career.resources.location}</p>
+            <h3>Educational Resources</h3>
+            <ul>
+              {career.resources.educationalResources.map((resource, index) => (
                 <li key={index}>
                   <a
-                    href={scholarship.url}
+                    href={resource.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {scholarship.name}
+                    {resource.name}
                   </a>
                 </li>
-              )
-            )}
-          </ul>
-          <h3>Career Resources</h3>
-          <ul>
-            {career.resources.careerResources.map((resource, index) => (
-              <li key={index}>
-                <a
-                  href={resource.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {resource.name}
-                </a>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </ul>
+          </div>
+          <div className="divider-results">
+            <h3>Scholarships and Grants</h3>
+            <ul>
+              {career.resources.scholarshipsAndGrants.map(
+                (scholarship, index) => (
+                  <li key={index}>
+                    <a
+                      href={scholarship.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {scholarship.name}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
+          </div>
+          <div className="divider-results">
+            <h3>Career Resources</h3>
+            <ul>
+              {career.resources.careerResources.map((resource, index) => (
+                <li key={index}>
+                  <a
+                    href={resource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {resource.name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
     </div>
