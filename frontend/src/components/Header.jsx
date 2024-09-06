@@ -32,7 +32,7 @@ const Slider = () => {
 
   const sendTokenToBackend = async (token) => {
     try {
-      await fetch("http://localhost:3030/api/save-token", {
+      await fetch("https://open-doors-backend.vercel.app/api/save-token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

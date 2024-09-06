@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/CareerGenerator.css";
-import background2 from '../images/career-background.svg'
-
 const CareerGenerator = () => {
   const [highschoolyr, setHighschoolyr] = useState("");
   const [learningStyle, setLearningStyle] = useState("");
@@ -9,28 +7,9 @@ const CareerGenerator = () => {
   const [institution, setInstitution] = useState("");
   const [city, setCity] = useState("");
   const [career, setCareer] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const newErrors = {};
-    if (!highschoolyr) newErrors.highschoolyr = "Highschool year is required.";
-    if (!learningStyle) newErrors.learningStyle = "Learning style is required.";
-    if (!careerAspirations)
-      newErrors.careerAspirations = "Career aspirations are required.";
-    if (!institution) newErrors.institution = "Institution is required.";
-    if (!city) newErrors.city = "City is required.";
-    return newErrors;
-  };
-
-  const generateCareer = async (jobType = null) => {
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
-      return;
-    }
-
-    setIsGenerating(true);
+  const [isGenerating, setIsGenerating] = useState(false); // New state to control API call
+  const generateCareer = async () => {
+    setIsGenerating(true); // Set generating flag to true
     try {
       const response = await fetch("https://open-doors-backend.vercel.app/submit-story", {
         method: "POST",
@@ -40,7 +19,7 @@ const CareerGenerator = () => {
         body: JSON.stringify({
           highschoolyr,
           learningStyle,
-          careerAspirations: jobType || careerAspirations,
+          careerAspirations,
           institution,
           city,
         }),
@@ -59,19 +38,16 @@ const CareerGenerator = () => {
     } catch (error) {
       console.error("Error fetching career data:", error);
     } finally {
-      setIsGenerating(false);
+      setIsGenerating(false); // Reset generating flag after API call is complete
     }
   };
-
   useEffect(() => {
     if (career !== null) {
       console.log("Career state updated:", career);
     }
   }, [career]);
-
-  return(
-    <div className="generator">
-      <div className="career-generator-container">
+  return (
+    <div className="career-generator-container">
       <h1>Career Generator</h1>
       <label>Highschool Year</label>
       <select
@@ -88,8 +64,6 @@ const CareerGenerator = () => {
         <option value="graduate">Graduate</option>
         <option value="other">Other</option>
       </select>
-      {errors.highschoolyr && <p className="error">{errors.highschoolyr}</p>}
-
       <label>Learning Style</label>
       <select
         className="form-control"
@@ -104,8 +78,6 @@ const CareerGenerator = () => {
         <option value="visual">Visual</option>
         <option value="other">Other</option>
       </select>
-      {errors.learningStyle && <p className="error">{errors.learningStyle}</p>}
-
       <label>Career Aspirations</label>
       <input
         type="text"
@@ -113,134 +85,101 @@ const CareerGenerator = () => {
         value={careerAspirations}
         onChange={(e) => setCareerAspirations(e.target.value)}
       />
-      {errors.careerAspirations && (
-        <p className="error">{errors.careerAspirations}</p>
-      )}
-
       <label>Institution</label>
-      <select
-        className="form-control"
-        name="institution"
+      <input
+        type="text"
+        placeholder="Institutions"
         value={institution}
         onChange={(e) => setInstitution(e.target.value)}
-      >
-        <option value=""></option>
-        <option value="apprenticeship">Apprenticeship</option>
-        <option value="college">College</option>
-        <option value="vocational">Vocational/Trade School</option>
-        <option value="technicalEducation">Certification</option>
-        <option value="bootCamp">Boot Camp</option>
-        <option value="other">Other</option>
-      </select>
-      {errors.institution && <p className="error">{errors.institution}</p>}
-
-      <label>City, State</label>
+      />
+      <label>City</label>
       <input
         type="text"
         placeholder="City"
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />
-      {errors.city && <p className="error">{errors.city}</p>}
-
-      <button
-        onClick={() => generateCareer()}
-        disabled={isGenerating}
-        style={{ marginBottom: "15%" }}
-      >
+      <button onClick={generateCareer} disabled={isGenerating}>
         {isGenerating ? "Generating..." : "Generate Career"}
       </button>
-
       {career && career.careerPathway && (
-        <div className="result-container">
+        <div>
           <h1>{career.careerPathway.title}</h1>
           <p>{career.careerPathway.description}</p>
-          <div className="divider-results">
-            <h2>Steps</h2>
-            <ul>
-              {career.careerPathway.steps.map((step, index) => (
-                <li key={index}>
-                  <h3>{step.stage}</h3>
-                  <ul>
-                    {step.activities.map((activity, idx) => (
-                      <li key={idx}>{activity}</li>
-                    ))}
-                  </ul>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="divider-results">
-            <h2>Job Types</h2>
-            <ul>
-              {career.careerPathway.jobTypes.map((jobType, index) => (
-                <li
-                  key={index}
-                  onClick={() => generateCareer(jobType)}
-                  style={{ cursor: "pointer", color: "#007bff" }}
+          <h2>Steps</h2>
+          <ul>
+            {career.careerPathway.steps.map((step, index) => (
+              <li key={index}>
+                <h3>{step.stage}</h3>
+                <ul>
+                  {step.activities.map((activity, idx) => (
+                    <li key={idx}>{activity}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+          <h2>Job Types</h2>
+          <ul>
+            {career.careerPathway.jobTypes.map((jobType, index) => (
+              <li
+                key={index}
+                onClick={() => generateCareer(jobType)}
+                style={{ cursor: "pointer", color: "#007bff" }}
+              >
+                {jobType}
+              </li>
+            ))}
+          </ul>
+          <h2>Resources</h2>
+          <p>Location: {career.resources.location}</p>
+          <h3>Educational Resources</h3>
+          <ul>
+            {career.resources.educationalResources.map((resource, index) => (
+              <li key={index}>
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  {jobType}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="divider-results">
-            <h2>Resources</h2>
-            <p>Location: {career.resources.location}</p>
-            <h3>Educational Resources</h3>
-            <ul>
-              {career.resources.educationalResources.map((resource, index) => (
+                  {resource.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <h3>Scholarships and Grants</h3>
+          <ul>
+            {career.resources.scholarshipsAndGrants.map(
+              (scholarship, index) => (
                 <li key={index}>
                   <a
-                    href={resource.url}
+                    href={scholarship.url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {resource.name}
+                    {scholarship.name}
                   </a>
                 </li>
-              ))}
-            </ul>
-          </div>
-          <div className="divider-results">
-            <h3>Scholarships and Grants</h3>
-            <ul>
-              {career.resources.scholarshipsAndGrants.map(
-                (scholarship, index) => (
-                  <li key={index}>
-                    <a
-                      href={scholarship.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {scholarship.name}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-          <div className="divider-results">
-            <h3>Career Resources</h3>
-            <ul>
-              {career.resources.careerResources.map((resource, index) => (
-                <li key={index}>
-                  <a
-                    href={resource.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {resource.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+              )
+            )}
+          </ul>
+          <h3>Career Resources</h3>
+          <ul>
+            {career.resources.careerResources.map((resource, index) => (
+              <li key={index}>
+                <a
+                  href={resource.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {resource.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
-    </div>
   );
 };
-
 export default CareerGenerator;
