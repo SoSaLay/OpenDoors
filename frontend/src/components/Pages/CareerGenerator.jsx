@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/CareerGenerator.css";
+import background2 from '../images/career-background.svg'
+
 const CareerGenerator = () => {
   const [highschoolyr, setHighschoolyr] = useState("");
   const [learningStyle, setLearningStyle] = useState("");
@@ -7,9 +9,28 @@ const CareerGenerator = () => {
   const [institution, setInstitution] = useState("");
   const [city, setCity] = useState("");
   const [career, setCareer] = useState(null);
-  const [isGenerating, setIsGenerating] = useState(false); // New state to control API call
-  const generateCareer = async () => {
-    setIsGenerating(true); // Set generating flag to true
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const newErrors = {};
+    if (!highschoolyr) newErrors.highschoolyr = "Highschool year is required.";
+    if (!learningStyle) newErrors.learningStyle = "Learning style is required.";
+    if (!careerAspirations)
+      newErrors.careerAspirations = "Career aspirations are required.";
+    if (!institution) newErrors.institution = "Institution is required.";
+    if (!city) newErrors.city = "City is required.";
+    return newErrors;
+  };
+
+  const generateCareer = async (jobType = null) => {
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setIsGenerating(true);
     try {
       const response = await fetch("https://open-doors-backend.vercel.app/submit-story", {
         method: "POST",
@@ -19,7 +40,7 @@ const CareerGenerator = () => {
         body: JSON.stringify({
           highschoolyr,
           learningStyle,
-          careerAspirations,
+          careerAspirations: jobType || careerAspirations,
           institution,
           city,
         }),
@@ -38,16 +59,19 @@ const CareerGenerator = () => {
     } catch (error) {
       console.error("Error fetching career data:", error);
     } finally {
-      setIsGenerating(false); // Reset generating flag after API call is complete
+      setIsGenerating(false);
     }
   };
+
   useEffect(() => {
     if (career !== null) {
       console.log("Career state updated:", career);
     }
   }, [career]);
-  return (
-    <div className="career-generator-container">
+
+  return(
+    <div className="generator">
+      <div className="career-generator-container">
       <h1>Career Generator</h1>
       <label>Highschool Year</label>
       <select
@@ -64,6 +88,8 @@ const CareerGenerator = () => {
         <option value="graduate">Graduate</option>
         <option value="other">Other</option>
       </select>
+      {errors.highschoolyr && <p className="error">{errors.highschoolyr}</p>}
+
       <label>Learning Style</label>
       <select
         className="form-control"
@@ -78,6 +104,8 @@ const CareerGenerator = () => {
         <option value="visual">Visual</option>
         <option value="other">Other</option>
       </select>
+      {errors.learningStyle && <p className="error">{errors.learningStyle}</p>}
+
       <label>Career Aspirations</label>
       <input
         type="text"
@@ -85,25 +113,46 @@ const CareerGenerator = () => {
         value={careerAspirations}
         onChange={(e) => setCareerAspirations(e.target.value)}
       />
+      {errors.careerAspirations && (
+        <p className="error">{errors.careerAspirations}</p>
+      )}
+
       <label>Institution</label>
-      <input
-        type="text"
-        placeholder="Institutions"
+      <select
+        className="form-control"
+        name="institution"
         value={institution}
         onChange={(e) => setInstitution(e.target.value)}
-      />
-      <label>City</label>
+      >
+        <option value=""></option>
+        <option value="apprenticeship">Apprenticeship</option>
+        <option value="college">College</option>
+        <option value="vocational">Vocational/Trade School</option>
+        <option value="technicalEducation">Certification</option>
+        <option value="bootCamp">Boot Camp</option>
+        <option value="other">Other</option>
+      </select>
+      {errors.institution && <p className="error">{errors.institution}</p>}
+
+      <label>City, State</label>
       <input
         type="text"
         placeholder="City"
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />
-      <button onClick={generateCareer} disabled={isGenerating}>
+      {errors.city && <p className="error">{errors.city}</p>}
+
+      <button
+        onClick={() => generateCareer()}
+        disabled={isGenerating}
+        style={{ marginBottom: "15%" }}
+      >
         {isGenerating ? "Generating..." : "Generate Career"}
       </button>
+
       {career && career.careerPathway && (
-        <div>
+        <div className="result-container">
           <h1>{career.careerPathway.title}</h1>
           <p>{career.careerPathway.description}</p>
           <div className="divider-results">
@@ -190,6 +239,8 @@ const CareerGenerator = () => {
         </div>
       )}
     </div>
+    </div>
   );
 };
+
 export default CareerGenerator;
