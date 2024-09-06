@@ -7,13 +7,7 @@ const app = express();
 const mysql = require('mysql');
 const PORT = process.env.PORT || 3030;
 
-const corsOptions ={
-   origin:'*', 
-   credentials:true,            
-   optionSuccessStatus:200,
-}
-
-app.use(cors(corsOptions))
+app.use(cors());
 
 app.use((req, res, next) => { 
   const allowedOrigins = ['https://open-doors-frontend.vercel.app']; // Your frontend's domain
