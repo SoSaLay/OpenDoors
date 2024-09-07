@@ -2,28 +2,48 @@ require('dotenv').config(); // Load environment variables
 const express = require('express');
 const bodyParser = require('body-parser');
 const Anthropic = require('@anthropic-ai/sdk');
-const cors = require('cors');
 const app = express();
 const mysql = require('mysql');
 const PORT = process.env.PORT || 3030;
+const cors = require('cors');
 
-app.use(cors());
 
-app.use((req, res, next) => { 
-  const allowedOrigins = ['https://open-doors-frontend.vercel.app']; // Your frontend's domain
-  const origin = req.headers.origin; 
-  if (allowedOrigins.includes(origin)) { 
-    res.header('Access-Control-Allow-Origin', origin); // Set the allowed origin dynamically 
-  } 
-  
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); 
-  res.header('Access-Control-Allow-Methods', 'POST, GET, OPTIONS'); 
-  
-  if (req.method === 'OPTIONS') { 
-    return res.sendStatus(200); // Pre-flight response for OPTIONS request 
-  } 
-  next(); 
+// Allowed origins, including localhost for development
+const allowedOrigins = [
+  'https://open-doors-frontend.vercel.app', // Production frontend
+  'http://localhost:3000',                  // Local frontend
+];
+
+// Configure CORS with dynamic origin checking
+const corsOptions = {
+  origin: (origin, callback) => {
+    console.log('Request origin:', origin); // Debugging: Log the origin of each request
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log('Blocked by CORS:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+  optionsSuccessStatus: 200,
+};
+
+// Apply CORS middleware
+app.use(cors(corsOptions));
+
+// Handling pre-flight requests (OPTIONS method)
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    return res.sendStatus(200);
+  }
+  next();
 });
+
 
 app.use(express.json());
 app.use(bodyParser.json()); // Though express.json() is enough in most cases, this is kept for compatibility.
