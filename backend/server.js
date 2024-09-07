@@ -10,8 +10,8 @@ const cors = require('cors');
 
 // Allowed origins, including localhost for development
 const allowedOrigins = [
-  'https://open-doors-frontend.vercel.app', // Production frontend
-  'http://localhost:3000',                  // Local frontend
+  'https://open-doors-frontend.vercel.app/', // Production frontend
+  'http://localhost:3030',                  // Local frontend
 ];
 
 // Configure CORS with dynamic origin checking
