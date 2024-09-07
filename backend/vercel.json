@@ -6,10 +6,10 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "server.js"
+      "source": "/(.*)",
+      "destination": "/server.js"
     }
   ],
   "headers": [
@@ -18,7 +18,7 @@
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
-          "value": "https://open-doors-frontend.vercel.app"  
+          "value": "https://open-doors-frontend.vercel.app"
         },
         {
           "key": "Access-Control-Allow-Methods",
