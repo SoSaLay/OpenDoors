@@ -36,7 +36,7 @@ const CareerGenerator = () => {
 
     setIsGenerating(true);
     try {
-      const response = await fetch("open-doors-backedn.vercel.app/submit-story", {
+      const response = await fetch("https://open-doors-backedn-git-main-sulaymans-projects-03e45d4f.vercel.app/submit-story", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -277,7 +277,7 @@ const CareerGenerator = () => {
           <button onClick={handleSave} style={{ marginRight: '10px' }}>
             Save
           </button>
-          <button onClick={handleDiscard}>
+          <button onClick={handleDiscard} style={{ marginLeft: '10px' }}>
             Discard
           </button>
           {message && <p>{message}</p>}

@@ -29,8 +29,9 @@ const ContactForm = () => {
 
     setError(""); // Clear any previous errors
 
+
     try {
-      const response = await fetch("open-doors-backedn.vercel.app/form", {
+      const response = await fetch("https://open-doors-backedn-git-main-sulaymans-projects-03e45d4f.vercel.app/form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

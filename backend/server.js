@@ -14,6 +14,8 @@ const allowedOrigins = [
     'https://open-doors-frontend.vercel.app',
     'https://open-doors-frontend.vercel.app/CareerGenerator',
     'http://localhost:3030',
+    'https://open-doors-backedn-git-main-sulaymans-projects-03e45d4f.vercel.app/form',
+    'https://open-doors-backedn-git-main-sulaymans-projects-03e45d4f.vercel.app/submit-story'
   ];
 
 
