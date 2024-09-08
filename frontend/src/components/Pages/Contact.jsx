@@ -30,7 +30,7 @@ const ContactForm = () => {
     setError(""); // Clear any previous errors
 
     try {
-      const response = await fetch("https://open-doors-backend.vercel.app/form", {
+      const response = await fetch("open-doors-backedn.vercel.app/form", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
