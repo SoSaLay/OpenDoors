@@ -1,15 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.0cd4638e.css",
-    "main.js": "/static/js/main.4c5aae92.js",
+    "main.css": "/static/css/main.779f6d00.css",
+    "main.js": "/static/js/main.f58aba3c.js",
     "static/js/453.8ab44547.chunk.js": "/static/js/453.8ab44547.chunk.js",
+    "static/media/hero-image.jpg": "/static/media/hero-image.7333b34cb5fe41ba3b53.jpg",
+    "static/media/dashboard.png": "/static/media/dashboard.93adeb29152f343e2ad0.png",
+    "static/media/icon1.svg": "/static/media/icon1.5f1727e78b362a5c279573aceeb33b65.svg",
+    "static/media/icon2.svg": "/static/media/icon2.fc5e391b01efba05c3b28ec7d82dabfe.svg",
+    "static/media/icon3.svg": "/static/media/icon3.d35b9c3185d426435c13d410f60f94e1.svg",
+    "static/media/background.svg": "/static/media/background.199f750da5afabc4d4e4.svg",
+    "static/media/career-background.svg": "/static/media/career-background.7190ca2ef2434a362c5c.svg",
+    "static/media/divider.svg": "/static/media/divider.9895a3b1d30dd614e27e722ec1d8fda2.svg",
+    "static/media/divider2.svg": "/static/media/divider2.3568dac96d994849b03e07edd94365f5.svg",
     "index.html": "/index.html",
-    "main.0cd4638e.css.map": "/static/css/main.0cd4638e.css.map",
-    "main.4c5aae92.js.map": "/static/js/main.4c5aae92.js.map",
+    "static/media/stars.svg": "/static/media/stars.6a7833613bc64168471dfd80e88d20c9.svg",
+    "main.779f6d00.css.map": "/static/css/main.779f6d00.css.map",
+    "main.f58aba3c.js.map": "/static/js/main.f58aba3c.js.map",
     "453.8ab44547.chunk.js.map": "/static/js/453.8ab44547.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.0cd4638e.css",
-    "static/js/main.4c5aae92.js"
+    "static/css/main.779f6d00.css",
+    "static/js/main.f58aba3c.js"
   ]
 }
