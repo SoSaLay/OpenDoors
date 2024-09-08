@@ -1,53 +1,40 @@
-import React, { useState } from "react";
+import { useAuth0 } from '@auth0/auth0-react';
 import "../CSS/Profile.css";
 
-export default function ProfilePage() {
-  const [profileData, setProfileData] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    bio: "A passionate developer with a love for coding and problem-solving.",
-    profilePicture: "https://via.placeholder.com/150", // Placeholder image URL
-  });
+const Profile = () => {
+    const { user, isAuthenticated, loginWithRedirect } = useAuth0();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setProfileData({
-      ...profileData,
-      [name]: value,
-    });
-  };
+    if (!isAuthenticated) {
+        return (
+            <div className="login-prompt">
+                <h2>Please log in to view your profile</h2>
+                <button className="login-button" onClick={loginWithRedirect}>
+                    Log In
+                </button>
+            </div>
+        );
+    }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission here (e.g., send data to a backend)
-    console.log("Profile data submitted:", profileData);
-  };
+    return (
+        <article className="profile-container">
+            {user?.picture && (
+                <div className="profile-image">
+                    <img src={user?.picture || ''} alt="Profile" />
+                </div>
+            )}
 
-  return (
-    <div className="profile-page">
-      <div className="profile-header">
-        <img
-          src={profileData.profilePicture}
-          alt="Profile"
-          className="profile-picture"
-        />
-        <h1>{profileData.name}</h1>
-        <p>{profileData.email}</p>
-      </div>
-      <form onSubmit={handleSubmit} className="profile-form">
-        <div className="form-group">
-          <label htmlFor="name">Name: {profileData.name}</label>
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email: {profileData.email}</label>
-        </div>
-        <div className="form-group">
-          <label htmlFor="bio">Bio: {profileData.bio}</label>
-        </div>
-        <div>
-          <button type="submit">Edit</button>
-        </div>
-      </form>
-    </div>
-  );
-}
+            <div className="profile-info">
+                <h2>{user?.name || "User"}</h2>
+
+                <ul>
+                    <li>Subscription: Free</li>
+                    <li>Current Role: Student</li>
+                </ul>
+
+                <button className="edit-profile-button">Edit Profile</button>
+            </div>
+        </article>
+    );
+};
+
+export default Profile;
