@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "../CSS/CareerGenerator.css";
-import background2 from '../images/career-background.svg'
+import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
 
 const CareerGenerator = () => {
+  const { getAccessTokenSilently } = useAuth0();  // Auth0 hook to get access token
   const [highschoolyr, setHighschoolyr] = useState("");
   const [learningStyle, setLearningStyle] = useState("");
   const [careerAspirations, setCareerAspirations] = useState("");
@@ -11,6 +13,7 @@ const CareerGenerator = () => {
   const [career, setCareer] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [errors, setErrors] = useState({});
+  const [message, setMessage] = useState('');
 
   const validate = () => {
     const newErrors = {};
@@ -29,10 +32,11 @@ const CareerGenerator = () => {
       setErrors(validationErrors);
       return;
     }
+     
 
     setIsGenerating(true);
     try {
-      const response = await fetch("https://open-doors-backend.vercel.app/submit-story", {
+      const response = await fetch("open-doors-backedn.vercel.app/submit-story", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,15 +67,47 @@ const CareerGenerator = () => {
     }
   };
 
+
+
+
+
+  
+  // Function to handle saving the roadmap
+  const handleSave = async () => {
+    try {
+      const token = await getAccessTokenSilently();
+      
+      const response = await axios.post('http://localhost:3030/api/save-roadmaps',
+        { roadmap: career },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 200) {
+        setMessage('Roadmap saved successfully!');
+      } else {
+        throw new Error('Failed to save roadmap');
+      }
+    } catch (error) {
+      setMessage('Failed to save roadmap.');
+      console.error('Error saving roadmap:', error);
+    }
+  };
+  
+
+  // Function to handle discarding the roadmap
+  const handleDiscard = () => {
+    setCareer(null);  // Clear the generated roadmap
+    setMessage('Roadmap discarded.');
+  };
+
   useEffect(() => {
     if (career !== null) {
       console.log("Career state updated:", career);
     }
   }, [career]);
 
-  return(
-    <div className="generator">
-      <div className="career-generator-container">
+  return (
+    <div className="career-generator-container">
       <h1>Career Generator</h1>
       <label>Highschool Year</label>
       <select
@@ -157,7 +193,7 @@ const CareerGenerator = () => {
           <p>{career.careerPathway.description}</p>
           <div className="divider-results">
             <h2>Steps</h2>
-            <ol>
+            <ul>
               {career.careerPathway.steps.map((step, index) => (
                 <li key={index}>
                   <h3>{step.stage}</h3>
@@ -168,7 +204,7 @@ const CareerGenerator = () => {
                   </ul>
                 </li>
               ))}
-            </ol>
+            </ul>
           </div>
           <div className="divider-results">
             <h2>Job Types</h2>
@@ -236,9 +272,17 @@ const CareerGenerator = () => {
               ))}
             </ul>
           </div>
+
+          {/* Save and Discard Buttons */}
+          <button onClick={handleSave} style={{ marginRight: '10px' }}>
+            Save
+          </button>
+          <button onClick={handleDiscard}>
+            Discard
+          </button>
+          {message && <p>{message}</p>}
         </div>
       )}
-    </div>
     </div>
   );
 };
