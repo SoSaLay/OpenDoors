@@ -10,8 +10,9 @@ const cors = require('cors');
 
 // Allowed origins, including localhost for development
 const allowedOrigins = [
-    'https://open-doors-orgs.vercel.app', // Update this to match your actual frontend URL
+    'https://open-doors-orgs.vercel.app', 
     'https://open-doors-frontend.vercel.app',
+    'https://open-doors-frontend.vercel.app/CareerGenerator',
     'http://localhost:3030',
   ];
 
@@ -37,18 +38,18 @@ const corsOptions = {
   app.use(cors(corsOptions));
 
 // Apply CORS middleware
-app.use(cors(corsOptions));
 
-// Handling pre-flight requests (OPTIONS method)
-// app.use((req, res, next) => {
-//   if (req.method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Origin', req.headers.origin);
-//     res.header('Accd bcess-Control-Allow-Methods', 'GET, POST, OPTIONS');
-//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-//     return res.sendStatus(200);
-//   }
-//   next();
-// });
+
+app.use((req, res, next) => {
+    if (req.method === 'OPTIONS') {
+      res.header('Access-Control-Allow-Origin', req.headers.origin);
+      res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+      return res.sendStatus(200);  // Respond OK to preflight request
+    }
+    next();
+  });
+  
 
 
 app.use(express.json());
