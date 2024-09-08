@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# [__Open Doors__](https://open-doors-frontend.vercel.app)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Open Doors** is a web-based platform designed to help high school students explore various career pathways tailored to their interests, learning styles, and educational goals. By providing personalized career guidance and educational resources, Open Doors empowers students to make informed decisions about their future.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Personalized career pathway suggestions based on user input (high school year, learning style, career aspirations, and institution preferences).
+- Dynamic job types and career steps for different educational pathways.
+- Access to resources like scholarships, grants, and educational tools.
+- Integration with backend services for generating career pathways and saving user data.
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**Open Doors** leverages the following technologies:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Frontend**: React.js, CSS
+- **Backend**: Node.js, Express.js, MySQL
+- **Deployment**: Vercel
+- **CORS**: Configured for secure communication between frontend and backend
 
-### `npm test`
+## __Installation__
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+*To set up the project locally, follow these steps through your terminal*:
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Before you begin, ensure you have the following installed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js (v14 or higher)
+- MySQL (or an equivalent database system)
+- Git
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Step 1: Clone the Repository
 
-### `npm run eject`
+First, clone the **Open Doors** repository to your local machine:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```sh
+git clone https://github.com/your-username/open-doors.git
+cd open-doors
+```
+### Step 2: Install Dependencies
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Once inside the project directory, install the required dependencies for both the frontend and backend:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### Install Backend Dependencies
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+```sh
+cd backend
+npm install 
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Install Frontend Dependencies
+```sh
+cd ../frontend
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Step 3: Configure Environment Variables
+Create a .env file in the backend directory and add the following variables to configure your database and other settings:
 
-### Code Splitting
+```sh
+DB_HOST=your-database-host
+DB_USER=your-database-username
+DB_PASSWORD=your-database-password
+DB_NAME=your-database-name
+PORT=3030
+```
+Make sure your MySQL database is running and the credentials match your local or remote database setup.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Step 4: Start the Development Servers
+Start Backend Server
+In the backend directory, run the following command to start the backend server:
 
-### Analyzing the Bundle Size
+``` sh
+node server.js
+```
+Start Frontend Server
+In the frontend directory, run the following command to start the React development server:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```sh
+npm start
+```
+#### Step 5: Access the Website
+Once both servers are running, you can access the Open Doors website at:
 
-### Making a Progressive Web App
+```sh
+http://localhost:3000
+````
+### Deployment Guide
+To deploy the project, you can use Vercel or another hosting platform. Ensure that your environment variables are correctly set on the hosting platform, and follow the instructions for deploying Node.js and React.js applications.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+License
+© 2024 Open Doors. All rights reserved.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
