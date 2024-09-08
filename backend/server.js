@@ -10,39 +10,45 @@ const cors = require('cors');
 
 // Allowed origins, including localhost for development
 const allowedOrigins = [
-  'https://open-doors-frontend.vercel.app/', // Production frontend
-  'http://localhost:3030',                  // Local frontend
-];
+    'https://open-doors-orgs.vercel.app', // Update this to match your actual frontend URL
+    'https://open-doors-frontend.vercel.app',
+    'http://localhost:3030',
+  ];
+
+
 
 // Configure CORS with dynamic origin checking
 const corsOptions = {
-  origin: (origin, callback) => {
-    console.log('Request origin:', origin); // Debugging: Log the origin of each request
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('Blocked by CORS:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  optionsSuccessStatus: 200,
-};
+    origin: (origin, callback) => {
+      console.log('Request origin:', origin);
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        console.log('Blocked by CORS:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200,
+  };
+  
+  app.use(cors(corsOptions));
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
 // Handling pre-flight requests (OPTIONS method)
-app.use((req, res, next) => {
-  if (req.method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-    return res.sendStatus(200);
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (req.method === 'OPTIONS') {
+//     res.header('Access-Control-Allow-Origin', req.headers.origin);
+//     res.header('Accd bcess-Control-Allow-Methods', 'GET, POST, OPTIONS');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+//     return res.sendStatus(200);
+//   }
+//   next();
+// });
 
 
 app.use(express.json());
